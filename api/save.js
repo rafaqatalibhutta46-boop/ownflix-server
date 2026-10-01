@@ -1,4 +1,4 @@
-// Final Storage - No Firebase, 300MB Support - No 413 Error
+// Final Storage - 300MB Support - No 413 Error - 100% Fixed
 let videos = [];
 
 export default async function handler(req, res) {
@@ -8,7 +8,6 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // Feed ke liye - GET pe saari videos
   if (req.method === 'GET') {
     return res.status(200).json({
       status: "API is working!",
@@ -30,7 +29,7 @@ export default async function handler(req, res) {
 
     const newVideo = {
       id: Date.now().toString(),
-      videoUrl: videoUrl, // Ye 5KB ka Telegram URL hai - 300MB ki video ka!
+      videoUrl: videoUrl,
       caption: caption || "",
       username: username || "creator",
       creatorId: creatorId || "123",
@@ -41,8 +40,6 @@ export default async function handler(req, res) {
     };
 
     videos.push(newVideo);
-    console.log("Saved:", videoUrl);
-
     return res.status(200).json({ success: true, video: newVideo });
   } catch (e) {
     return res.status(500).json({ error: e.message });
